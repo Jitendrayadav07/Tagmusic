@@ -18,6 +18,10 @@ const Today = () => {
   const handleFormSubmit = () => {
     setShowForm(false);
     setShowCard(true);
+
+    setArtistName("");
+    setGenre("");
+    setPricePerRequest(0);
   };
 
   return (

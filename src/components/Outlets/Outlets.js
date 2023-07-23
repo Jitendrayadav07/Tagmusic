@@ -14,7 +14,7 @@ const Outlets = () => {
 
   const fetchAllOrganization = async () => {
     try {
-      const response = await axios.get("/organization");
+      const response = await axios.get("/organization/all");
       const organizationData = response.data.result;
       setOrganizations(organizationData);
     } catch (error) {
@@ -56,8 +56,37 @@ const Outlets = () => {
       <Grid columns={4} stackable doubling>
         {filteredOrganizations.map((org, index) => (
           <Grid.Column key={index}>
-            <Card className="card">
-              <Image className="img" src={org.display_logo} wrapped ui={false} />
+          <Grid.Column>
+
+          <div class="ui card custom-card">
+
+            <div class="image">
+
+              <img src={org.display_logo}/>
+
+            </div>
+
+            <div class="content">
+
+              <a class="header">{org.name}</a>
+
+
+              <div class="description">
+
+                {org.city} {org.area} 
+
+              </div>
+
+            </div>
+
+            
+
+          </div>
+
+        </Grid.Column>
+          
+            {/* <Card className="custom-card">
+              <Image className="custom-card" src={org.display_logo} wrapped ui={false} />
               <Card.Content>
                 <hr />
                 <Card.Header>{org.name}</Card.Header>
@@ -72,7 +101,7 @@ const Outlets = () => {
                   <br />
                 </Card.Meta>
               </Card.Content>
-            </Card>
+            </Card> */}
           </Grid.Column>
         ))}
       </Grid>
