@@ -1,0 +1,15 @@
+.ui.medium.image img {
+    width: 200px; /* Set your desired width here */
+    height: 200px; /* This will maintain the aspect ratio */
+  }
+
+  .ui {
+    border: 2px solid #000; /* Set your desired border style */
+    padding: 20px; /* Add some padding to make the content look better */
+  }
+
+  .ui.horizontal.divider{
+    border: 2px solid #000;
+    padding: 20px; 
+    height: 300px;
+  }

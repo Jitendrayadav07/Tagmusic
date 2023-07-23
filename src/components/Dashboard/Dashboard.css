@@ -1,0 +1,27 @@
+.sidebar {
+    height: calc(100vh - 2.5rem);
+    overflow-y: auto;
+  }
+  
+  .main-content {
+    width: 100%;
+    margin-left: 150px !important;
+    transition: margin-left 0.7s ease-in-out;
+    
+  }
+  
+  
+  .sidebar-open {
+    width: calc(100% - 150px);
+  }
+  
+  .sidebar-hidden {
+    width: 100%;
+    margin-left: 0px !important;
+    transition: margin-left 0.7s ease-in-out;
+  }
+
+  .ui.basic {
+    height: 95vh;
+    overflow: auto;
+  }

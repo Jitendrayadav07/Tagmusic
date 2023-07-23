@@ -1,0 +1,48 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+.filter-container {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.add-org-button-container {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.ui-input-asd {
+  text-align: center !important;
+}
+
+.btn {
+  text-align: right;
+  margin-left: 20px;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.ui.card {
+  border: 1px solid #000;
+  width: 365px;
+  height: 470px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ui.img {
+  margin: 10px;
+  height: 300px;
+  width: 340px;
+}
