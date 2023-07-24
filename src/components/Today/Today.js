@@ -1,82 +1,145 @@
 import React, { useState } from "react";
+import { Form, Button ,Table ,Segment} from "semantic-ui-react";
+import { useNavigate } from "react-router-dom";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import axios from "axios";
-import { Header, Segment, Button, Form, Card, Icon } from "semantic-ui-react";
+import "../Today/Today.css";
+
+const validationSchema = yup.object().shape({
+  artist_name: yup.string().required("Artist Name is required."),
+  genre: yup.string().required("Genre is required."),
+  price_per_request: yup.string().required("Price Per Request is required."),
+});
 
 const Today = () => {
   const [showForm, setShowForm] = useState(false);
-  const [artistName, setArtistName] = useState("");
-  const [genre, setGenre] = useState("");
-  const [pricePerRequest, setPricePerRequest] = useState(0);
-  const [showCard, setShowCard] = useState(false);
-  const [approved, setApproved] = useState(false);
-  const [rejected, setRejected] = useState(false);
+  const [tableData,setTableData] = useState([])
+  const navigate = useNavigate()
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
-  const handleActivateTodayClick = () => {
-    setShowForm(true);
-  };
+  const tableData1 = [
+    { id: 1, name: "John Doe", age: 30, city: "New York" },
+    { id: 2, name: "Jane Smith", age: 25, city: "Los Angeles" },
+    { id: 3, name: "Bob Johnson", age: 28, city: "Chicago" },
+  ];
 
-  const handleFormSubmit = () => {
-    setShowForm(false);
-    setShowCard(true);
+  const onSubmit = async (data) => {
+    try {
+      // Handle form submission with data
+      console.log("Form Data:", data);
 
-    setArtistName("");
-    setGenre("");
-    setPricePerRequest(0);
+      // Make the API call
+      const response = await axios.post("/outlet_panel/create", data);
+
+      // Add the form data to the tableData state
+      setTableData((prevData) => [...prevData, data]);
+
+      // Reset the form after successful submission
+      setValue("artist_name", "");
+      setValue("genre", "");
+      setValue("price_per_request", "");
+      const getAllData = await axios.get("/outlet_panel").then((response)=>{
+        console.log("data",response)
+        setTableData(response.data.result)
+       }).catch((err)=>{
+        console.log("err",err)
+       })
+     
+
+       alert('Artist Added successful');
+       navigate('/dashboard/today');
+    } catch (error) {
+      // Handle error if the API call fails
+      console.error("Error submitting form:", error);
+    }
   };
 
   return (
-    <div style={{ padding: "20px", textAlign: "center" }}>
-      <Header as="h1" textAlign="center" style={{ marginBottom: "30px" }}>
-        Welcome to TagMusic!
-      </Header>
-
-      {showForm ? (
-        <Segment textAlign="left">
-          <Form onSubmit={handleFormSubmit}>
+    <div>
+      {!showForm ? (
+        <Button onClick={() => setShowForm(true)} primary>
+          Active
+        </Button>
+      ) : (
+        <Segment>
+        <h3>Form Data</h3>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Field>
               <label>Artist Name</label>
-              <input
-                placeholder="Artist Name"
-                value={artistName}
-                onChange={(e) => setArtistName(e.target.value)}
+              <Controller
+                name="artist_name"
+                control={control}
+                defaultValue=""
+                render={({ field }) => <input {...field} />}
               />
+              {errors.artist_name && (
+                <p className="error-message">{errors.artist_name.message}</p>
+              )}
             </Form.Field>
+
             <Form.Field>
               <label>Genre</label>
-              <input
-                placeholder="Genre"
-                value={genre}
-                onChange={(e) => setGenre(e.target.value)}
+              <Controller
+                name="genre"
+                control={control}
+                defaultValue=""
+                render={({ field }) => <input {...field} />}
               />
+              {errors.genre && (
+                <p className="error-message">{errors.genre.message}</p>
+              )}
             </Form.Field>
+
             <Form.Field>
               <label>Price Per Request</label>
-              <input
-                type="number"
-                placeholder="Price Per Request"
-                value={pricePerRequest}
-                onChange={(e) => setPricePerRequest(e.target.value)}
+              <Controller
+                name="price_per_request"
+                control={control}
+                defaultValue=""
+                render={({ field }) => <input {...field} />}
               />
+              {errors.price_per_request && (
+                <p className="error-message">{errors.price_per_request.message}</p>
+              )}
             </Form.Field>
-            <Button primary type="submit">
+
+            <Button type="submit" primary>
               Submit
             </Button>
           </Form>
-        </Segment>
-      ) : (
-        <Button primary onClick={handleActivateTodayClick}>
-          Activate Today
-        </Button>
-      )}
 
-      {showCard && (
-        <Card>
-          <Card.Content>
-            <Card.Header>{artistName}</Card.Header>
-            <Card.Meta>{genre}</Card.Meta>
-            <Card.Description>Price Per Request: {pricePerRequest}</Card.Description>
-          </Card.Content>
-        </Card>
+    <Table celled>
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell>Today Plan</Table.HeaderCell>
+        <Table.HeaderCell>Artist Name</Table.HeaderCell>
+        <Table.HeaderCell>Genre</Table.HeaderCell>
+        <Table.HeaderCell>Price Per Request</Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+
+    <Table.Body>
+    {tableData.map((item) => (
+      <Table.Row key={item.id}>
+        <Table.Cell>{item.id}</Table.Cell>
+        <Table.Cell>{item.artist_name}</Table.Cell>
+        <Table.Cell>{item.genre}</Table.Cell>
+        <Table.Cell>{item.price_per_request}</Table.Cell>
+      </Table.Row>
+      ))}
+    </Table.Body>
+  </Table>
+  </Segment>
       )}
     </div>
   );

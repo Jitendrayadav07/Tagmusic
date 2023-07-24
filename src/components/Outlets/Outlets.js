@@ -46,65 +46,37 @@ const Outlets = () => {
       {/* Add Org Button */}
       <div className="add-org-button-container">
         <Link to="addOrg">
-          <Button primary className="add-org-button">
+          {/* <Button primary className="add-org-button">
             Create
-          </Button>
+          </Button> */}
+          <Button primary className="add-org-button"
+      color='teal'
+      content='Add Outlet'
+      icon='add'
+      labelPosition='left'
+    />
         </Link>
       </div>
 
       {/* Organization Cards */}
-      <Grid columns={4} stackable doubling>
+      <div className="custom-card-container">
         {filteredOrganizations.map((org, index) => (
-          <Grid.Column key={index}>
-          <Grid.Column>
-
-          <div class="ui card custom-card">
-
-            <div class="image">
-
-              <img src={org.display_logo}/>
-
+          <div key={index} className="ui card custom-card">
+            <div className="image">
+              <img src={org.display_logo} alt="Organization Logo" />
             </div>
-
-            <div class="content">
-
-              <a class="header">{org.name}</a>
-
-
-              <div class="description">
-
-                {org.city} {org.area} 
-
+            <div className="content">
+              <a className="header">{org.name}</a>
+              <div className="description">
+                City : {org.city}
               </div>
-
+              <div className="description">
+               Area : {org.area}
+              </div>
             </div>
-
-            
-
           </div>
-
-        </Grid.Column>
-          
-            {/* <Card className="custom-card">
-              <Image className="custom-card" src={org.display_logo} wrapped ui={false} />
-              <Card.Content>
-                <hr />
-                <Card.Header>{org.name}</Card.Header>
-                <Card.Meta>
-                  <span className="city">
-                    <b>City:</b> {org.city}
-                  </span>
-                  <br />
-                  <span className="area">
-                    <b>Area:</b> {org.area}
-                  </span>
-                  <br />
-                </Card.Meta>
-              </Card.Content>
-            </Card> */}
-          </Grid.Column>
         ))}
-      </Grid>
+      </div>
     </div>
   );
 };

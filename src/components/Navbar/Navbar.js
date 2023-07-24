@@ -21,7 +21,7 @@ const Navbar = ({ handleToggleSidebar }) => {
         <Icon name="sidebar" />
       </Menu.Item>
       <Menu.Item as={NavLink} to="/" exact>
-        Chat GPT
+        TagMusic
       </Menu.Item>
       <Menu.Menu position="right" >
         <Dropdown item icon="user" simple>
